@@ -93,4 +93,23 @@ make_Polygon(vector< vector< pair<double, double> > > & coords)
     return polygon_geometry;
 }
 
+
+GEOSGeometryUniquePtr 
+make_Point(double x, double y)
+{
+    auto seq = make_unique_w_free(GEOSCoordSeq_create(1, 2));
+    int ret_x = GEOSCoordSeq_setX(seq.get(), 0, x);
+    int ret_y = GEOSCoordSeq_setY(seq.get(), 0, y);
+
+    if ((ret_x == 0) || (ret_y == 0)) {
+        throw runtime_error("Could not set coordinate in sequence");
+    }
+    auto point_geometry = make_unique_w_free(GEOSGeom_createPoint(seq.get()));
+    if (point_geometry.get() == nullptr) {
+        throw std::runtime_error("Could not create point");
+    }
+    seq.release(); // owned by the point now
+    return point_geometry;
+}
+
 } // namespace geos_wrap

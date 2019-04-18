@@ -56,7 +56,7 @@ struct Free
         GEOSBufferParams_destroy(b);
     }
 
-    void operator()(GEOSPreparedGeometry * g) const {
+    void operator()(const GEOSPreparedGeometry * g) const {
         GEOSPreparedGeom_destroy(g);
     }
 
@@ -176,6 +176,7 @@ hexwkb_string_to_GEOSGeometry(const string & s)
 GEOSCoordSequenceUniquePtr make_CoordSeq(vector< pair<double, double> > & coords);
 GEOSGeometryUniquePtr make_LinearRing(vector< pair<double, double> > & coords);
 GEOSGeometryUniquePtr make_Polygon(vector< vector< pair<double, double> > > & coords);
+GEOSGeometryUniquePtr make_Point(double x, double y);
 
 } // namespace geos_wrap
 
